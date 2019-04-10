@@ -9,15 +9,44 @@ const _socketConnections = new SimpleHashTable();
 
 publisher.sendMessage = (bank, msg) =>
 {
-    if (_socketConnections.containsKey(bank))
+    const trySend = () =>
     {
-//        var msg_enc = aesWrapper.encrypt(_socketConnections.get(bank).Key, _socketConnections.get(bank).Iv, msg);
         _socketConnections.get(bank).sendUTF(msg);
         logger.info(`msg : '${msg}' sent to bank : '${bank}'`);
     }
-    else
+
+    try{
+        trySend();
+    }
+    catch(err)
     {
-        throw new Error(`cannot send any message to bank '${bank}' : connection to bank does not exist!`);
+        setTimeout(() => {
+            try
+            {
+                trySend();
+            }catch(err)
+            {
+                setTimeout(() => 
+                {
+                    try
+                    {
+                        trySend();
+                    }catch(err)
+                    {
+                        setTimeout(() => {
+                            try
+                            {
+                                trySend();
+                            }catch(err)
+                            {
+                                logger.error(`unable to send any message to bank ${bank} : connection to bank does not exist!`);
+                            }
+
+                        } , 5000);
+                    }
+                }, 2000);
+            }
+        } , 1000);
     }
 }
 
