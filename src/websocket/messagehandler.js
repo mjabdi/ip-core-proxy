@@ -18,7 +18,8 @@ const handleMessage = (connection, request) =>
             }
             else
             {
-                messageReceivedFromBank(connection.Bank , aesWrapper.decrypt(connection.Key, connection.Iv ,message.utf8Data));
+                // messageReceivedFromBank(connection.Bank , aesWrapper.decrypt(connection.Key, connection.Iv ,message.utf8Data));
+                messageReceivedFromBank(connection.Bank , message.utf8Data);
             }
         }
         else if (message.type === 'binary') {
@@ -30,19 +31,21 @@ const handleMessage = (connection, request) =>
 
 const initializeConnection = (bank, socketConnection) =>
 {
-    publisher.addConnection(bank , socketConnection).then( () =>
-    {
-        processAllNeworPendingMessages(bank, socketConnection, messageReceivedFromCore).then( (result) =>
-        {
-            registerRealtimeMessageFeed(bank, socketConnection, messageReceivedFromCore);
-        }).catch((err) => {
-            logger.error(err);
-            setTimeout(() => {
-                logger.info(`retrying initialize bank '${bank}' connection...`);
-                initializeConnection(bank , socketConnection);
-            }, 1000);
-        });
-    });
+    publisher.addConnection(bank , socketConnection);
+    
+    // publisher.addConnection(bank , socketConnection).then( () =>
+    // {
+    //     processAllNeworPendingMessages(bank, socketConnection, messageReceivedFromCore).then( (result) =>
+    //     {
+    //         registerRealtimeMessageFeed(bank, socketConnection, messageReceivedFromCore);
+    //     }).catch((err) => {
+    //         logger.error(err);
+    //         setTimeout(() => {
+    //             logger.info(`retrying initialize bank '${bank}' connection...`);
+    //             initializeConnection(bank , socketConnection);
+    //         }, 1000);
+    //     });
+    // });
 }
 
 module.exports = {

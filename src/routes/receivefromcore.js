@@ -2,20 +2,32 @@ const express = require('express');
 const router = express.Router();
 const logger = require('./../utils/logger')();
 const db = require('./../startup/db');
+const messageReceivedFromCore = require('./../messageprocessor/coretobanks').messageReceivedFromCore;
 
 router.post('/sendtobank', async (req, res) => {
  
     validate(req.body).then( () =>
     {
-        db.addNewMessageToQueue(req.body.payload,req.body.bank).then( (result) =>
-        {
-            logger.info(`new message added to the queue of '${req.body.bank}' with id : ${result.id}`);
-            res.status(200).send({status : 'ok' , reference : result.id });
-        } ).catch( (err) => {
-            res.status(500).send('An error occured while processing the request! Please try again.');
-        });
+        // db.addNewMessageToQueue(req.body.payload,req.body.bank).then( (result) =>
+        // {
+        //     logger.info(`new message added to the queue of '${req.body.bank}' with id : ${result.id}`);
+        //     res.status(200).send({status : 'ok' , reference : result.id });
+        // } ).catch( (err) => {
+        //     res.status(500).send('An error occured while processing the request! Please try again.');
+        // });
 
-    } ).catch( (err) =>
+        try
+        {
+            messageReceivedFromCore(req.body.bank, req.body.payload);
+            res.status(200).send({status : 'ok'});
+        }
+        catch(err)
+        {
+            res.status(500).send('An error occured while processing the request! Please try again.');
+        }
+
+
+    }).catch( (err) =>
     {
         logger.error('Invalid api call : ' + err.msg);
         res.status(400).send({error : err.msg});

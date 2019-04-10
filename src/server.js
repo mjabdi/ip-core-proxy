@@ -26,17 +26,17 @@ async function run()
   //** */
 
   //** initialize Database */
-  await db.initDB();
+  // await db.initDB();
   //** */
 
   //** initialize Banks */
-  banks.init();
+  // banks.init();
   //** end of Banks initialization */
 
   //** load certificates */
   // rsaWrapper.generateServerCert();
   // rsaWrapper.generateBankCerts();
-  rsaWrapper.loadCertificates();
+  // rsaWrapper.loadCertificates();
   //** */
 
   //** initialize HTTP server on port : ${HttpPort} */

@@ -11,8 +11,8 @@ publisher.sendMessage = (bank, msg) =>
 {
     if (_socketConnections.containsKey(bank))
     {
-        var msg_enc = aesWrapper.encrypt(_socketConnections.get(bank).Key, _socketConnections.get(bank).Iv, msg);
-        _socketConnections.get(bank).sendUTF(msg_enc);
+//        var msg_enc = aesWrapper.encrypt(_socketConnections.get(bank).Key, _socketConnections.get(bank).Iv, msg);
+        _socketConnections.get(bank).sendUTF(msg);
         logger.info(`msg : '${msg}' sent to bank : '${bank}'`);
     }
     else
@@ -25,8 +25,8 @@ publisher.sendMessageToAll = (msg) =>
 {
     _socketConnections.values().forEach( (conn) =>
     {
-        var msg_enc = aesWrapper.encrypt(conn.Key, conn.Iv, msg);
-        conn.sendUTF(msg_enc);
+        //var msg_enc = aesWrapper.encrypt(conn.Key, conn.Iv, msg);
+        conn.sendUTF(msg);
     });
     logger.info(`msg : '${msg}' sent to all banks`);
 }
@@ -42,22 +42,27 @@ publisher.addConnection = (bank ,connection) =>
         else
         {
             _socketConnections.put(bank ,connection);
-             db.incrementConnectionCounter(bank).then( (result) => 
-             {
-                resolve();
-             });
+            //  db.incrementConnectionCounter(bank).then( (result) => 
+            //  {
+            //     resolve();
+            //  });
         }
     });
 }
 
-publisher.removeConnection = async (bank) =>
+publisher.removeConnection = (bank) =>
 {
     if (_socketConnections.containsKey(bank))
     {
         _socketConnections.remove(bank);
     }
     
-    await db.decrementConnectionCounter(bank);
+  //  await db.decrementConnectionCounter(bank);
+}
+
+publisher.bankExists = (bank) =>
+{
+    return _socketConnections.containsKey(bank);
 }
 
 module.exports = publisher;

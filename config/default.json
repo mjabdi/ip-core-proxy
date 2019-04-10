@@ -1,8 +1,8 @@
 {
-  "LogLevel" : "error",
+  "LogLevel" : "info",
   "IPCoreRestAPI": "something",
-  "HttpPort" : 3001,
-  "WebsocketPort" : 8001,
+  "HttpPort" : 3000,
+  "WebsocketPort" : 8000,
   "DBHost" : "localhost",
   "DBPort" : 28015,
   "DBName" : "ipcommunication",

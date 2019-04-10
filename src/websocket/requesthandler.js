@@ -15,15 +15,6 @@ const handleRequest = (request) =>
     
     var connection = request.accept();
     logger.info(`connection accepted from remote_address : ${request.remoteAddress}  with key : ${request.key}`);
-
-    setTimeout(() => {
-        if (!connection.Authenticated)
-        {
-            connection.sendUTF('Handshake Timeout : Connection Closed By Server');
-            logger.info('Handshake Timeout : Connection Closed By Server');
-            request.socket.end();
-        }
-    }, config.HandshakeTimeout || 5000);
     
     connection.on('message', handleMessage(connection,request));
 
