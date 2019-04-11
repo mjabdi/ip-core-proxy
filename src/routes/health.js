@@ -1,12 +1,12 @@
-const express = require('express');
-const router = express.Router();
+const health = {};
+
 const server = require('./../server');
 
-router.get('/ready', (req, res) => {
- 
+
+health.ready = async (req, res) => {
   if (server.ready())
   {
-    res.json({
+    res.status(200).send({
       status: 'UP'
     });
   }
@@ -14,13 +14,12 @@ router.get('/ready', (req, res) => {
   {
     res.status(500).send('server is not ready yet! please wait...');
   }
-});
+}
 
-router.get('/live', (req, res) => {
- 
+health.live = async (req, res) => {
   if (server.live())
   {
-    res.json({
+    res.status(200).send({
       status: 'UP'
     });
   }
@@ -28,6 +27,6 @@ router.get('/live', (req, res) => {
   {
     res.status(500).send('server is dead!');
   }
-});
+}
 
-module.exports = router;
+module.exports = health;

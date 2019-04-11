@@ -1,10 +1,6 @@
-const express = require('express');
-const router = express.Router();
 
-router.get('/', function (req, res) {
+module.exports =  async (req, res) => {
  
-  res.send("Http Server is up and running...");
+  res.status(200).send('Http Server is up and running...');
 
-});
-
-module.exports = router;
+}

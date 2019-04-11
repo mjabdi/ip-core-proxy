@@ -7,7 +7,7 @@ const db = require('./../startup/db');
 
 const _socketConnections = new SimpleHashTable();
 
-publisher.sendMessage = (bank, msg) =>
+publisher.sendMessage = (bank, msg, id) =>
 {
     const trySend = () =>
     {
@@ -39,7 +39,7 @@ publisher.sendMessage = (bank, msg) =>
                                 trySend();
                             }catch(err)
                             {
-                                logger.error(`unable to send any message to bank ${bank} : connection to bank does not exist!`);
+                                logger.error(`unable to send message to bank ${bank} with ref : ${id}: connection to bank does not exist!`);
                             }
 
                         } , 5000);

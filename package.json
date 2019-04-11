@@ -24,12 +24,14 @@
     "body-parser": "^1.18.3",
     "config": "^3.0.1",
     "crypto": "^1.0.1",
-    "express": "^4.16.4",
+    "fastify": "^2.2.0",
+    "fastify-autoload": "^0.6.0",
     "log4js": "^4.0.2",
     "node-rsa": "^1.0.5",
     "randomstring": "^1.1.5",
     "rethinkdb": "^2.3.3",
     "simple-hashtable": "^1.0.0",
+    "uuid": "^3.3.2",
     "websocket": "^1.0.28"
   },
   "devDependencies": {

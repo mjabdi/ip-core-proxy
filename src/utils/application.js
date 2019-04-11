@@ -9,9 +9,9 @@ application.shutdown = () => {
     logger.info('application is shutting down...');
 
     //**  do anything you need before exiting the application here */
-    if (application.httpServer) {
+    if (application.httpServer.started) {
         logger.info('closing the http server...');
-        application.httpServer.close(() => {
+         application.httpServer.close(() => {
             logger.info('http server closed.');
         });
     }

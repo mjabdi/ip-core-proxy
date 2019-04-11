@@ -2,10 +2,10 @@ const logger = require('./../../utils/logger')();
 const publisher = require('./../../websocket/publisher');
 const db = require('./../../startup/db');
 
-const messageReceivedFromCore = (bank, msg) =>
+const messageReceivedFromCore = (bank, msg, id) =>
 {
-    logger.info(`new message received from core to bank '${bank}' : ${msg}`);
-    publisher.sendMessage(bank, msg);
+    logger.info(`new message received from core to bank '${bank}' with ref : ${id}`);
+    publisher.sendMessage(bank, msg, id);
 
     // /** Mark the message as pending */
     // db.markMessageAsPending(msg.id,bank).then( (result) =>
