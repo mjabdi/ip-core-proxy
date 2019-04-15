@@ -24,7 +24,7 @@ httpServer.start = async () =>
     routes.setupRoutes(server);
 
     try {
-        await server.listen(config.HttpPort);
+        await server.listen(config.HttpPort,'0.0.0.0');
         httpServer.started = true;
         logger.info(`server listening on localhost:${config.HttpPort}`);
         console.log(`server listening on localhost:${config.HttpPort}`);
