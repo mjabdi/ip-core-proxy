@@ -1,5 +1,5 @@
 {
-  "name": "ipcommunicationlayer",
+  "name": "ipcoreproxy",
   "version": "1.0.0",
   "description": "A generated IBM Cloud application",
   "private": true,
