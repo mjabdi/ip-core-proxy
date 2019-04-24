@@ -86,8 +86,10 @@ publisher.sendMessageToAll = (msg) =>
 {
     bankConnections.getAll().values().forEach( (conn) =>
     {
-        if (conn.Bank.startsWith('XXXX'))
-            conn.sendUTF(msg);
+        try{
+            if (conn.Bank.startsWith('XXXX'))
+                conn.sendUTF(msg);
+        }catch(err) {}
     });
 }
 
