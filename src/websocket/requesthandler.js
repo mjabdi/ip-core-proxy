@@ -2,7 +2,7 @@ const config = require('config');
 const host = require('./../utils/application').hostname();
 const logger = require('./../utils/logger')();
 const handleMessage = require('./messagehandler').handleMessage;
-const publisher = require('./publisher');
+const bankConnections = require('./bankconnections');
 
 const handleRequest = (request) =>
 {
@@ -22,7 +22,7 @@ const handleRequest = (request) =>
         if (connection.Bank)
         {
             logger.info(' bank ' + connection.Bank + ' disconnected.');
-            publisher.removeConnection(connection.Bank);
+            bankConnections.removeConnection(connection.Bank);
         }
         else
         {

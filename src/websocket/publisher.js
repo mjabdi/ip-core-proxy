@@ -1,97 +1,94 @@
 const publisher = {};
 
-const SimpleHashTable = require('simple-hashtable');
 const logger = require('./../utils/logger')();
-const aesWrapper = require('./../utils/aes-wrapper');
-const db = require('./../startup/db');
-
-const _socketConnections = new SimpleHashTable();
+const bankConnections = require('./bankconnections');
 
 publisher.sendMessage = (bank, msg, id) =>
 {
-    const trySend = () =>
-    {
-        _socketConnections.get(bank).sendUTF(msg);
-        logger.info(`msg : '${msg}' sent to bank : '${bank}'`);
-    }
+    logger.info(`trying to send msg : '${msg}' to bank : '${bank}'`);
 
     try{
-        trySend();
-    }
-    catch(err)
-    {
-        setTimeout(() => {
-            try
-            {
-                trySend();
-            }catch(err)
-            {
-                setTimeout(() => 
-                {
-                    try
-                    {
-                        trySend();
-                    }catch(err)
-                    {
-                        setTimeout(() => {
-                            try
-                            {
-                                trySend();
-                            }catch(err)
-                            {
-                                logger.error(`unable to send message to bank ${bank} with ref : ${id}: connection to bank does not exist!`);
-                            }
+        bankConnections.getBank(bank).sendUTF(JSON.stringify({type:'message' , msg: msg , id: id}));
+    }catch(err){}
 
-                        } , 5000);
-                    }
-                }, 2000);
-            }
-        } , 1000);
-    }
+    // const trySend = () =>
+    // {
+    //     logger.info(`trying to send msg : '${msg}' to bank : '${bank}'`);
+
+    //     var ack_id;
+    //     if (id === 'null')
+    //     {
+    //         ack_id = uuidv4();
+    //     }
+    //     else
+    //     {
+    //         ack_id = id;
+    //     }
+
+    //     bankConnections.getBank(bank).sendUTF(JSON.stringify({type:'message' , msg: msg , id: ack_id}));
+
+    //     setTimeout(() => {
+    //         if (!acks.containsAck(bank, ack_id))
+    //         {
+    //             if (bankConnections.bankExists(bank))
+    //             {
+    //                 try{
+    //                     bankConnections.getBank(bank).sendUTF(JSON.stringify({type:'message' , msg: msg , id: ack_id}));
+    //                 }catch(err){}
+    //             }
+    //             else
+    //             {
+    //                 //do nothing
+    //             }
+    //         }
+    //     }, 2000);
+
+    //     logger.info(`msg : '${msg}' sent to bank : '${bank}'`);
+    // }
+
+    // try{
+    //     trySend();
+    // }
+    // catch(err)
+    // {
+    //     setTimeout(() => {
+    //         try
+    //         {
+    //             trySend();
+    //         }catch(err)
+    //         {
+    //             setTimeout(() => 
+    //             {
+    //                 try
+    //                 {
+    //                     trySend();
+    //                 }catch(err)
+    //                 {
+    //                     setTimeout(() => {
+    //                         try
+    //                         {
+    //                             trySend();
+    //                         }catch(err)
+    //                         {
+    //                             logger.error(`unable to send message to bank ${bank} with ref : ${id}: connection to bank does not exist!`);
+    //                         }
+
+    //                     } , 5000);
+    //                 }
+    //             }, 2000);
+    //         }
+    //     } , 1000);
+    // }
 }
+
 
 publisher.sendMessageToAll = (msg) =>
 {
-    _socketConnections.values().forEach( (conn) =>
+    bankConnections.getAll().values().forEach( (conn) =>
     {
-        //var msg_enc = aesWrapper.encrypt(conn.Key, conn.Iv, msg);
-        conn.sendUTF(msg);
+        if (conn.Bank.startsWith('XXXX'))
+            conn.sendUTF(msg);
     });
-    logger.info(`msg : '${msg}' sent to all banks`);
-}
-
-publisher.addConnection = (bank ,connection) =>
-{
-    return new Promise( (resolve, reject) =>
-    {
-        if (_socketConnections.containsKey(bank))
-        {
-            reject(new Error(`Bank ${bank} already has a connection!`));
-        }
-        else
-        {
-            _socketConnections.put(bank ,connection);
-            //  db.incrementConnectionCounter(bank).then( (result) => 
-            //  {
-            //     resolve();
-            //  });
-        }
-    });
-}
-
-publisher.removeConnection = (bank) =>
-{
-    if (_socketConnections.containsKey(bank))
-    {
-        _socketConnections.remove(bank);
-    }
-    
-  //  await db.decrementConnectionCounter(bank);
-}
-
-publisher.bankExists = (bank) =>
-{
-    return _socketConnections.containsKey(bank);
 }
 
 module.exports = publisher;

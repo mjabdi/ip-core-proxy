@@ -4,7 +4,7 @@ const registerRealtimeMessageFeed = require('./../startup/db').registerRealtimeM
 const processAllNeworPendingMessages = require('./../startup/db').processAllNeworPendingMessages;
 const messageReceivedFromCore = require('./../messageprocessor/coretobanks/index').messageReceivedFromCore;
 const messageReceivedFromBank = require('./../messageprocessor/bankstocore/index').messageReceivedFromBank;
-const publisher = require('./publisher');
+const bankConnections = require('./bankconnections');
 const aesWrapper = require('./../utils/aes-wrapper');
 
 const handleMessage = (connection, request) =>
@@ -31,7 +31,7 @@ const handleMessage = (connection, request) =>
 
 const initializeConnection = (bank, socketConnection) =>
 {
-    publisher.addConnection(bank , socketConnection);
+    bankConnections.addConnection(bank , socketConnection);
     
     // publisher.addConnection(bank , socketConnection).then( () =>
     // {

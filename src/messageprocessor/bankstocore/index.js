@@ -1,17 +1,32 @@
 const logger = require('./../../utils/logger')();
 const publisher = require('./../../websocket/publisher');
+const acks = require('./../../websocket/acks');
 
 const messageReceivedFromBank = (bank, msg) =>
 {
-    logger.info(`recovery message received from bank '${bank}': ${msg}`);
-    try
+    var message = JSON.parse(msg);
+
+    if (message.type === 'recovery')
     {
-        publisher.sendMessage(JSON.parse(msg).bank, JSON.parse(msg).msg);
+        logger.warn(`recovery message received from bank '${bank}': ${message.msg}`);
+        try
+        {
+            publisher.sendMessage(message.bank, message.msg , message.id);
+        }
+        catch(err)
+        {
+            
+        }
     }
-    catch(err)
+    else if (message.type === 'ack')
     {
-        
+        acks.ackReceived(message.bank , message.payload);
     }
+    else if (message.type === 'rcvd')
+    {
+        publisher.sendMessageToAll(msg);
+    }
+
     //publisher.sendMessage(bank, `message from core to bank : ${msg}`);
 }
 
