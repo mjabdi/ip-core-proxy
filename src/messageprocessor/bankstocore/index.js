@@ -26,8 +26,10 @@ const messageReceivedFromBank = (bank, msg) =>
     {
         publisher.sendMessageToAll(msg);
     }
-
-    //publisher.sendMessage(bank, `message from core to bank : ${msg}`);
+    else if (message.type === 'bankconnectionstatus')
+    {
+        publisher.sendMessageToAll(msg);
+    }
 }
 
 module.exports = {

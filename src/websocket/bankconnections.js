@@ -1,7 +1,6 @@
 const bankConnections = {};
 
 const SimpleHashTable = require('simple-hashtable');
-const db = require('./../startup/db');
 
 const _socketConnections = new SimpleHashTable();
 

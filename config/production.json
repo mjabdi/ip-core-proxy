@@ -1,5 +1,0 @@
-{
-    "HandshakeTimeout" : 10000,
-    "ShutdownTimeout" : 5000,
-    "MaxBankConnections" : 1
-}

@@ -1,9 +1,5 @@
 {
-  "IPCoreRestAPI": "IP_CORE_REST_API",
   "LogLevel" : "LOG_LEVEL",
   "HttpPort" : "HTTP_PORT",
-  "WebsocketPort" : "WEBSOCKET_PORT",
-  "DBHost" : "DBHOST",
-  "DBPort" : "DBPORT",
-  "DBName" : "DBNAME"
+  "WebsocketPort" : "WEBSOCKET_PORT"
 }

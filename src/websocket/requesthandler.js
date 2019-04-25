@@ -1,5 +1,4 @@
 const config = require('config');
-const host = require('./../utils/application').hostname();
 const logger = require('./../utils/logger')();
 const handleMessage = require('./messagehandler').handleMessage;
 const bankConnections = require('./bankconnections');

@@ -1,19 +1,10 @@
 const logger = require('./../utils/logger')();
-const db = require('./../startup/db');
 const messageReceivedFromCore = require('./../messageprocessor/coretobanks').messageReceivedFromCore;
 
 module.exports = async (req, res) => {
  
     validate(req.body).then( () =>
     {
-        // db.addNewMessageToQueue(req.body.payload,req.body.bank).then( (result) =>
-        // {
-        //     logger.info(`new message added to the queue of '${req.body.bank}' with id : ${result.id}`);
-        //     res.status(200).send({status : 'ok' , reference : result.id });
-        // } ).catch( (err) => {
-        //     res.status(500).send('An error occured while processing the request! Please try again.');
-        // });
-
         try
         {
             messageReceivedFromCore(req.body.bank, req.body.payload, req.id);

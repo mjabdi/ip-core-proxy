@@ -1,8 +1,5 @@
 const logger = require('./../utils/logger')();
 const HandshakeManager = require('./handshakemanager');
-const registerRealtimeMessageFeed = require('./../startup/db').registerRealtimeMessageFeed;
-const processAllNeworPendingMessages = require('./../startup/db').processAllNeworPendingMessages;
-const messageReceivedFromCore = require('./../messageprocessor/coretobanks/index').messageReceivedFromCore;
 const messageReceivedFromBank = require('./../messageprocessor/bankstocore/index').messageReceivedFromBank;
 const bankConnections = require('./bankconnections');
 const aesWrapper = require('./../utils/aes-wrapper');
@@ -31,21 +28,7 @@ const handleMessage = (connection, request) =>
 
 const initializeConnection = (bank, socketConnection) =>
 {
-    bankConnections.addConnection(bank , socketConnection);
-    
-    // publisher.addConnection(bank , socketConnection).then( () =>
-    // {
-    //     processAllNeworPendingMessages(bank, socketConnection, messageReceivedFromCore).then( (result) =>
-    //     {
-    //         registerRealtimeMessageFeed(bank, socketConnection, messageReceivedFromCore);
-    //     }).catch((err) => {
-    //         logger.error(err);
-    //         setTimeout(() => {
-    //             logger.info(`retrying initialize bank '${bank}' connection...`);
-    //             initializeConnection(bank , socketConnection);
-    //         }, 1000);
-    //     });
-    // });
+    bankConnections.addConnection(bank , socketConnection);    
 }
 
 module.exports = {

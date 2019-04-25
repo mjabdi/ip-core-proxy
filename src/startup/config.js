@@ -5,12 +5,8 @@ const application = require('./../utils/application');
 module.exports = () => {
 
     const requiredConfigs = [
-        'IPCoreRestAPI',
         'HttpPort',
-        'WebsocketPort',
-        'DBHost',
-        'DBPort',
-        'DBName',
+        'WebsocketPort'
     ];
 
     let error = false;

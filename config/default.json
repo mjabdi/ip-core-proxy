@@ -3,10 +3,5 @@
   "IPCoreRestAPI": "something",
   "HttpPort" : 3000,
   "WebsocketPort" : 8000,
-  "DBHost" : "localhost",
-  "DBPort" : 28015,
-  "DBName" : "ipcommunication",
-  "HandshakeTimeout" : 30000,
-  "ShutdownTimeout" : 5000,
-  "MaxBankConnections" : 1
+  "ShutdownTimeout" : 5000
 }
