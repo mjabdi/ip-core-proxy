@@ -5,11 +5,11 @@ const bankConnections = require('./bankconnections');
 
 publisher.sendMessage = (bank, msg, id) =>
 {
-    logger.info(`trying to send msg : '${msg}' to bank : '${bank}'`);
-
-    try{
+    if (bankConnections.bankConnected(bank))
+    {
+        logger.info(`trying to send msg : '${msg}' to bank : '${bank}'`);
         bankConnections.getBank(bank).sendUTF(JSON.stringify({type:'message' , msg: msg , id: id}));
-    }catch(err){}
+    }
 }
 
 

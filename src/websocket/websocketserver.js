@@ -24,7 +24,8 @@ WSSModule.start = () => {
     const wsServer = new WebSocketServer({
         httpServer: websocketServer,
         autoAcceptConnections: false,
-        keepalive : true
+        keepalive : true,
+        closeTimeout: 100
     });
 
     WSSModule.wsServer = wsServer;

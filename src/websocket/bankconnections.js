@@ -25,6 +25,11 @@ bankConnections.bankExists = (bank) =>
     return _socketConnections.containsKey(bank);
 }
 
+bankConnections.bankConnected = (bank) =>
+{
+    return _socketConnections.containsKey(bank) && _socketConnections.get(bank).connected;
+}
+
 bankConnections.getAll = () =>
 {
     return _socketConnections;
