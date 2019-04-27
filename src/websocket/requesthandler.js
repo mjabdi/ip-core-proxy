@@ -15,7 +15,7 @@ const handleRequest = (request) =>
     var connection = request.accept();
     //logger.info(`connection accepted from remote_address : ${request.remoteAddress}  with key : ${request.key}`);
     
-    connection.on('message', handleMessage(connection,request));
+    connection.on('message', handleMessage(connection));
 
     connection.on('close', (reasonCode, description) => {
         if (connection.Bank)

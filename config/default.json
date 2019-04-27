@@ -1,5 +1,5 @@
 {
-  "LogLevel" : "warn",
+  "LogLevel" : "info",
   "IPCoreRestAPI": "something",
   "HttpPort" : 3000,
   "WebsocketPort" : 8000,

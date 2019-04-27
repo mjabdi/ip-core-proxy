@@ -1,7 +1,7 @@
 const logger = require('./../utils/logger')();
 const bankConnections = require('./bankconnections');
 
-module.exports = async (connection ,request ,message ,callback) => {
+module.exports = async (connection, message, callback) => {
 
     if (!connection.Bank)
         {
@@ -10,7 +10,7 @@ module.exports = async (connection ,request ,message ,callback) => {
             if (bankConnections.bankExists(bank))
             {
                 connection.sendUTF('failed');
-                request.socket.end();
+                connection.close();
                 return;
             }
             connection.sendUTF('ok');

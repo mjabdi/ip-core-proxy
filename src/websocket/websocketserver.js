@@ -23,7 +23,8 @@ WSSModule.start = () => {
 
     const wsServer = new WebSocketServer({
         httpServer: websocketServer,
-        autoAcceptConnections: false
+        autoAcceptConnections: false,
+        keepalive : true
     });
 
     WSSModule.wsServer = wsServer;
@@ -32,8 +33,9 @@ WSSModule.start = () => {
 }
 
 WSSModule.close = (callback) => {
-    WSSModule.server.close(callback);
     WSSModule.wsServer.closeAllConnections();
+    WSSModule.wsServer.shutDown();
+    WSSModule.server.close(callback);
 }
 
 
