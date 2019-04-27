@@ -15,7 +15,7 @@ const messageReceivedFromCore = (bank, msg, id) =>
         {
             clearInterval(timer); 
         }
-        else if (count >= 5) { 
+        else if (count > 10) { 
             clearInterval(timer); 
             logger.error(`could not send message to bank ${bank} :msg: ${msg}`);
         } 
