@@ -22,6 +22,7 @@ const messageReceivedFromCore = (bank, msg, id) =>
         else
         {
             publisher.sendMessage(bank, msg, ack_id);
+            logger.warn(`retrying (${count}) send message to bank ${bank} :msg: ${msg}`);
         }
     }, 2000);  
 }
