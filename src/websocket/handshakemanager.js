@@ -10,7 +10,7 @@ module.exports = async (connection, message, callback) => {
             if (bankConnections.bankExists(bank))
             {
                 connection.sendUTF('failed');
-                connection.close();
+                connection.drop();
                 return;
             }
             connection.sendUTF('ok');

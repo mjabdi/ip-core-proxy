@@ -21,7 +21,7 @@ const handleMessage = (connection) =>
         }
         else if (message.type === 'binary') {
             connection.sendUTF('Invalid Format : Connection Closed By Server');
-            connection.close();
+            connection.drop();
         }
     }
 }
